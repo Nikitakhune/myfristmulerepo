@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="49006f60-f0b7-41be-a554-9844e19edc6c" basePath="/" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dataweaveFlow" doc:id="013afecd-17fc-48b5-9cac-d20896d1f24a" >
+		<http:listener doc:name="Listener" doc:id="30c1f7bb-8548-4319-816f-4acc706a64f0" path="/dataweave" config-ref="HTTP_Listener_config"/>
+		<ee:transform doc:name="Transform Message" doc:id="a9702c52-e1c9-4403-a0ed-d3bcbeb228a6">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"mystring" : ("Hello" ++ "world")
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="dataweave" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"a":"Nikita"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="24114491-51b2-497d-b6f9-3e1acab5d183" message="#[vars.dataweave]"/>
+		<ee:transform doc:name="Transform Message" doc:id="2d66ada2-9668-41e2-b13f-8db63a435181" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Strings
+output application/json
+var number =[1,2,3,4]
+---
+{
+	"plural":pluralize("box"),
+	"square":number map((value,index)-> value * value)
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a77cf18e-c6b8-4f8e-a4bc-9d0ec3a6180a" message="#[payload]"/>
+	</flow>
+</mule>
