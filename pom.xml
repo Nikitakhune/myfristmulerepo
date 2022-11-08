@@ -29,27 +29,28 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
-	
-    <configuration>                    <coverage>                        <runCoverage>true</runCoverage>                        <formats>                            <format>html</format>                        </formats>                    </coverage>
-<cloudHubDeployment>
-<uri>https://anypoint.mulesoft.com</uri>
-<muleVersion>${mule.version}</muleVersion>
-<!-- Deploy User Parameter -->
-<username>${anypoint.username}</username>
-<password>${anypoint.password}</password>
-<!-- Environment Parameter -->
-<environment>${cloudhub.environment}</environment>
-<applicationName>${cloudhub.app}</applicationName>
-<businessGroup>${cloudhub.bg}</businessGroup>
-<workerType>${cloudhub.worker}</workerType>
-</cloudHubDeployment>
+	                   <configuration>                 
+                              <coverage>                     
+                                <runCoverage>true</runCoverage>                       
+                                 <formats>                          
+                                       <format>html</format>        
+                                   </formats>                 
+                         </coverage>
+                                <cloudHubDeployment>
+                                     <uri>https://anypoint.mulesoft.com</uri>
+                                      <muleVersion>4.4.0</muleVersion>
+                                       <!-- Deploy User Parameter -->
+                                        <username>nkhune</username>
+                                        <password>Niki#2001</password>
+                                        <!-- Environment Parameter -->
+                                        <environment>SANDBOX</environment>
+                                        <applicationName>dataweave-demo</applicationName>
+                                        <businessGroup>cg</businessGroup>
+                                        <workerType>0.1</workerType>
+                                   </cloudHubDeployment>
 
-                </configuration>
-
-
-
-
-</plugin>
+                                   </configuration>
+                           </plugin>
 		</plugins>
 	</build>
 
